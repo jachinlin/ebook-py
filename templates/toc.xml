@@ -23,10 +23,10 @@
         </navPoint>
 
         {% for flp in first_level_post_list %}
-
+            {% set i = loop.index %}
             <navPoint
                     class="chapter"
-                    id="chapter_{{ flp.id }}"
+                    id="chapter_{{ i }}"
                     playOrder="{{ flp.play_order }}">
                 <navLabel>
                     <text>{{ flp.title }}</text>
@@ -34,9 +34,10 @@
                 <content src="{{ flp.title }}.html"/>
 
                 {% for nlp in flp.next_level_post_list %}
+                {% set j = loop.index %}
                     <navPoint
                             class="section"
-                            id="section_{{ flp.id }}.{{ nlp.id }}"
+                            id="section_{{ i }}.{{ j }}"
                             playOrder="{{ nlp.play_order }}">
                         <navLabel>
                             <text>{{ nlp.title }}</text>

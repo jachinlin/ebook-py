@@ -21,24 +21,26 @@ def render_toc_html(first_level_post_list):
     render_file('toc.html', {'first_level_post_list': first_level_post_list}, 'toc.html', output_dir)
 
 
+def render_opf(first_level_post_list, title):
+    render_file('opf.xml', {'first_level_post_list': first_level_post_list}, '{}.opf'.format(title), output_dir)
+
+
 if __name__ == '__main__':
     first_level_post_list = [
         {
             'title': 'a',
-            'id': 12,
             'play_order': 2,
             'next_level_post_list': [
-                {'title': 'a.1', 'id': 12, 'play_order': 3, },
-                {'title': 'a.2', 'id': 12, 'play_order': 4, }
+                {'title': 'a.1', 'play_order': 3, },
+                {'title': 'a.2', 'play_order': 4, }
             ]
         },
         {
             'title': 'b',
-            'id': 12,
             'play_order': 5,
             'next_level_post_list': [
-                {'title': 'b.1', 'id': 12, 'play_order': 6, },
-                {'title': 'b.1', 'id': 12, 'play_order': 7, }
+                {'title': 'b.1', 'play_order': 6, },
+                {'title': 'b.1', 'play_order': 7, }
             ]
         },
     ]
@@ -49,4 +51,5 @@ if __name__ == '__main__':
     render_toc_html(first_level_post_list)
     print('test render_toc_html pass')
 
-
+    render_opf(first_level_post_list, 'nice_to_meet_you')
+    print('test render_opf pass')
