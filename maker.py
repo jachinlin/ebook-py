@@ -4,7 +4,7 @@ import os
 from jinja2 import Environment, PackageLoader
 
 templates_env = Environment(loader=PackageLoader('maker'))
-output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'output')
+_output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'output')
 
 
 def render_file(template_name, context, output_name, output_dir):
@@ -13,15 +13,15 @@ def render_file(template_name, context, output_name, output_dir):
         f.write(template.render(**context))
 
 
-def render_toc_ncx(first_level_post_list):
+def render_toc_ncx(first_level_post_list, output_dir):
     render_file('toc.xml', {'first_level_post_list': first_level_post_list}, 'toc.ncx', output_dir)
 
 
-def render_toc_html(first_level_post_list):
+def render_toc_html(first_level_post_list, output_dir):
     render_file('toc.html', {'first_level_post_list': first_level_post_list}, 'toc.html', output_dir)
 
 
-def render_opf(first_level_post_list, title):
+def render_opf(first_level_post_list, title, output_dir):
     render_file('opf.xml', {'first_level_post_list': first_level_post_list}, '{}.opf'.format(title), output_dir)
 
 
@@ -63,21 +63,30 @@ def parse_headers(toc_file_name):
     return title, headers_info
 
 
-if __name__ == '__main__':
-    title, first_level_post_list = parse_headers('./output/toc.md')
+def make_ebook(source_dir, output_dir=None):
+    output_dir = output_dir or _output_dir
 
+    os.system("mkdir -p {}".format(output_dir))
+    os.system("rm -rf {}/*".format(output_dir))
+    os.system("cp -rf {}/* {}".format(source_dir, output_dir))
+
+    toc_file_name = os.path.join(output_dir, 'toc.md')
+    if not os.path.exists(toc_file_name):
+        raise ValueError('not exists toc md file')
+    title, first_level_post_list = parse_headers(toc_file_name)
     if not title:
         raise ValueError('invalid toc md file')
-    print(first_level_post_list)
-    render_toc_ncx(first_level_post_list)
-    print('test render_toc_ncx pass')
 
-    render_toc_html(first_level_post_list)
-    print('test render_toc_html pass')
+    render_toc_ncx(first_level_post_list, output_dir)
+    render_toc_html(first_level_post_list, output_dir)
+    render_opf(first_level_post_list, title, output_dir)
 
-    render_opf(first_level_post_list, title)
-    print('test render_opf pass')
-    f = os.path.join(output_dir, title + '.opf')
-    print(f)
-    os.system("%s %s" % ('/Users/jiaxian/Downloads/KindleGen_Mac_i386_v2_9/kindlegen', f))
+    output_file = os.path.join(output_dir, title + '.opf')
+    os.system("%s %s" % ('kindlegen', output_file))
+
+
+if __name__ == '__main__':
+    make_ebook('./example/source')
+
+
 
