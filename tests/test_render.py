@@ -1,7 +1,7 @@
 # coding=utf8
 
 import os
-from ..ebook_maker import render_toc_ncx, render_toc_html, render_opf, parse_headers
+from kindle_maker.ebook_maker import render_toc_ncx, render_toc_html, render_opf, parse_headers
 
 headers = [
     {'title': 'title1', 'play_order': 2, 'next_headers': [{'title': 'title1.1', 'play_order': 3}]},
@@ -10,7 +10,7 @@ headers = [
 
 
 def test_templates_exist():
-    templates_dir = os.path.join(os.path.dirname(__file__), '../templates')
+    templates_dir = os.path.join(os.path.dirname(__file__), '../kindle_maker/templates')
 
     assert os.path.exists(templates_dir)
     assert 'opf.xml' in os.listdir(templates_dir)

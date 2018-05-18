@@ -12,7 +12,7 @@ setup(
     description='a tool make kindle mobi ebook',
     license='MIT',
     keywords='kindle ebook mobi',
-    packages=[],
+    packages=['kindle_maker'],
     install_requires=[
         'Jinja2==2.10'
     ],
