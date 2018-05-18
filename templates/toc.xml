@@ -8,7 +8,7 @@
         <meta name="dtb:maxPageNumber" content="0"/>
     </head>
     <docTitle>
-        <text>{{ doc_name }}</text>
+        <text>{{ title }}</text>
     </docTitle>
     <docAuthor>
         <text>{{ author }}</text>
@@ -22,7 +22,7 @@
             <content src="toc.html"/>
         </navPoint>
 
-        {% for flp in first_level_post_list %}
+        {% for flp in headers %}
             {% set i = loop.index %}
             <navPoint
                     class="chapter"
@@ -33,7 +33,7 @@
                 </navLabel>
                 <content src="{{ flp.title }}.html"/>
 
-                {% for nlp in flp.next_level_post_list %}
+                {% for nlp in flp.next_headers %}
                 {% set j = loop.index %}
                     <navPoint
                             class="section"

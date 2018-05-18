@@ -2,18 +2,18 @@
 <package xmlns="http://www.idpf.org/2007/opf" version="2.0" unique-identifier="BookId">
 
     <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
-        <dc:title>DailyKindle {{date}}</dc:title>
-        <dc:language>en-us</dc:language>
-        <dc:creator>DailyKindle</dc:creator>
+        <dc:title>{{ title }}</dc:title>
+        <dc:language>zh-cn</dc:language>
+        <dc:creator>{{ author }}</dc:creator>
     </metadata>
 
     <manifest>
         <item id="toc" media-type="application/x-dtbncx+xml" href="toc.ncx"></item>
         <item id="item1" media-type="application/xhtml+xml" href="toc.html"/>
-        {% for flp in first_level_post_list %}
+        {% for flp in headers %}
             {% set i = loop.index %}
             <item id="chapter_{{i}}" media-type="application/xhtml+xml" href="{{flp.title}}.html"/>
-            {% for nlp in flp.next_level_post_list %}
+            {% for nlp in flp.next_headers %}
                 {% set j = loop.index %}
                 <item id="session_{{i}}.{{j}}" media-type="application/xhtml+xml" href="{{nlp.title}}.html"/>
             {% endfor %}
@@ -21,10 +21,10 @@
     </manifest>
 
     <spine toc="toc">
-        {% for flp in first_level_post_list %}
+        {% for flp in headers %}
             {% set i = loop.index %}
             <itemref idref="chapter_{{i}}"/>
-            {% for nlp in flp.next_level_post_list %}
+            {% for nlp in flp.next_headers %}
                 {% set j = loop.index %}
                 <itemref idref="session_{{i}}.{{j}}"/>
             {% endfor %}
