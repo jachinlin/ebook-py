@@ -6,7 +6,7 @@ import uuid
 import datetime
 from jinja2 import Environment, FileSystemLoader
 
-templates_env = Environment(loader=FileSystemLoader('%s/templates/' % os.path.dirname(__file__)))
+templates_env = Environment(loader=FileSystemLoader('%s/templates/' % os.path.dirname(os.path.realpath(__file__))))
 _default_output_dir = '/tmp/kindle_maker/'
 
 
