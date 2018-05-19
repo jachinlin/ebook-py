@@ -18,7 +18,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'make_mobi = kindle_maker.make_mobi_command',
+            'make_mobi = kindle_maker.ebook_maker:make_mobi_command',
         ],
     }
 )
