@@ -16,5 +16,9 @@ setup(
     install_requires=[
         'Jinja2==2.10'
     ],
-    entry_points={}
+    entry_points={
+        'console_scripts': [
+            'make_mobi = kindle_maker.make_mobi_command',
+        ],
+    }
 )

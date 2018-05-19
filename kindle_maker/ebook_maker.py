@@ -1,6 +1,7 @@
 # coding=utf8
 
 import os
+import sys
 import uuid
 import datetime
 from jinja2 import Environment, FileSystemLoader
@@ -143,3 +144,15 @@ def make_ebook(source_dir, output_dir=None):
     os.system("rm -rf %s" % tmp_dir)
 
 
+def make_mobi_command():
+    args = sys.argv[1:]
+    if len(args) < 2:
+        print("""make_mobi usage:
+1. prepare html files and a toc.md file in a source dir, and then call 
+2. make_mobi <source_dir> <output_dir>
+        """)
+        return
+
+    make_ebook(args[0], args[1])
+
+    print("success")
