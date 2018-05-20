@@ -13,6 +13,7 @@ setup(
     license='MIT',
     keywords='kindle ebook mobi',
     packages=['kindle_maker'],
+    package_data={'kindle_maker': ['templates/*']},
     install_requires=[
         'Jinja2==2.10'
     ],
