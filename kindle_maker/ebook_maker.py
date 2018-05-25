@@ -127,6 +127,11 @@ def make_ebook(source_dir, output_dir=None):
     if not title:
         raise ValueError('invalid toc md file')
 
+    # cover
+    cover_file_name = os.path.join(tmp_dir, 'cover.jpg')
+    if not os.path.exists(cover_file_name):
+        cover = '%s/templates/cover.jpg' % os.path.dirname(os.path.realpath(__file__))
+        os.system('cp %s %s' % (cover, tmp_dir))
     # render toc.ncx file
     render_toc_ncx(headers, tmp_dir)
     # render toc.html file

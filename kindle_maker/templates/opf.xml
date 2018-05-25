@@ -5,9 +5,11 @@
         <dc:title>{{ title }}</dc:title>
         <dc:language>zh-cn</dc:language>
         <dc:creator>{{ author }}</dc:creator>
+        <meta name="cover" content="cover_image"/>
     </metadata>
 
     <manifest>
+        <item id="cover_image" href="cover.jpg" media-type="image/jpeg"/>
         <item id="toc" media-type="application/x-dtbncx+xml" href="toc.ncx"></item>
         <item id="item1" media-type="application/xhtml+xml" href="toc.html"/>
         {% for flp in headers %}
