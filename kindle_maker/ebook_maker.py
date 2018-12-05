@@ -4,6 +4,7 @@ import os
 import sys
 import uuid
 import datetime
+import shutil
 from jinja2 import Environment, FileSystemLoader
 
 templates_env = Environment(loader=FileSystemLoader('%s/templates/' % os.path.dirname(os.path.realpath(__file__))))
@@ -114,14 +115,13 @@ def make_ebook(source_dir, output_dir=None):
 
     # make a tmp dir in output_dir
     tmp_dir = os.path.join(output_dir, str(uuid.uuid4()))
-    os.system("mkdir -p {}".format(tmp_dir))
 
     # copy source files to tmp dir
-    os.system("cp -rf {}/* {}".format(source_dir, tmp_dir))
+    shutil.copytree(source_dir, tmp_dir)
 
     # parse toc.md file
     toc_file_name = os.path.join(tmp_dir, 'toc.md')
-    if not os.path.exists(toc_file_name):
+    if not os.path.isfile(toc_file_name):
         raise ValueError('not exists toc md file')
     title, headers = parse_headers(toc_file_name)
     if not title:
@@ -129,9 +129,10 @@ def make_ebook(source_dir, output_dir=None):
 
     # cover
     cover_file_name = os.path.join(tmp_dir, 'cover.jpg')
-    if not os.path.exists(cover_file_name):
+    if not os.path.isfile(cover_file_name):
         cover = '%s/templates/cover.jpg' % os.path.dirname(os.path.realpath(__file__))
-        os.system('cp %s %s' % (cover, tmp_dir))
+        shutil.copy(cover, tmp_dir)
+
     # render toc.ncx file
     render_toc_ncx(headers, tmp_dir)
     # render toc.html file
@@ -146,7 +147,7 @@ def make_ebook(source_dir, output_dir=None):
     # copy mobi file to output dir
     os.system("cp %s %s" % (mobi_file, output_dir))
     # remove tmp dir
-    os.system("rm -rf %s" % tmp_dir)
+    shutil.rmtree(tmp_dir)
 
 
 def make_mobi_command():
@@ -154,7 +155,7 @@ def make_mobi_command():
     if len(args) < 2:
         print("""make_mobi usage:
 1. prepare html files and a toc.md file in a source dir, and then call 
-2. make_mobi <source_dir> <output_dir>
+2. make_mobi <source_dir> <ogitutput_dir>
         """)
         return
 
