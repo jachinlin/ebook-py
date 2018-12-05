@@ -36,8 +36,7 @@
 
     <guide>
         <reference type="toc" title="Table of Contents" href="toc.html"></reference>
-        {# Make the TOC the first thing to read. #}
-        <reference type="text" title="Table of Contents" href="toc.html"></reference>
+        <reference type="text" title="Table of Contents" href="{{headers[0].title}}.html"></reference>
     </guide>
 
 </package>
