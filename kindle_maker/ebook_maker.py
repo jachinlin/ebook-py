@@ -143,7 +143,7 @@ def make_ebook(source_dir, output_dir=None):
     # make mobi ebook in tmp dir
     opf_file = os.path.join(tmp_dir, title + '.opf')
     mobi_file = os.path.join(tmp_dir, title + '.mobi')
-    os.system("%s %s" % ('kindlegen', opf_file))
+    os.system("%s -dont_append_source %s" % ('kindlegen', opf_file))
     # copy mobi file to output dir
     os.system("cp %s %s" % (mobi_file, output_dir))
     # remove tmp dir

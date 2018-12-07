@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name='kindle_maker',
-    version='0.0.2',
+    version='0.0.4',
     author='jachinlin',
     author_email='linjx1000@gmail.com',
     url='https://github.com/jachinlin/kindle_maker',
