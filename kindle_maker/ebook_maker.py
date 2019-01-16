@@ -1,19 +1,22 @@
 # coding=utf8
 
+import io
 import os
 import sys
 import uuid
 import datetime
 import shutil
+import tempfile
 from jinja2 import Environment, FileSystemLoader
 
 templates_env = Environment(loader=FileSystemLoader('%s/templates/' % os.path.dirname(os.path.realpath(__file__))))
-_default_output_dir = '/tmp/kindle_maker/'
+
+_default_output_dir = os.path.join(tempfile.gettempdir(), 'kindle_maker')
 
 
 def render_file(template_name, context, output_name, output_dir):
     template = templates_env.get_template(template_name)
-    with open(os.path.join(output_dir, output_name), "w") as f:
+    with io.open(os.path.join(output_dir, output_name), mode="w", encoding='utf-8') as f:
         f.write(template.render(**context))
 
 
@@ -69,7 +72,7 @@ def parse_headers(toc_file_name):
     """
     headers_info = []
 
-    with open(toc_file_name) as f:
+    with io.open(toc_file_name, mode='r', encoding='utf-8') as f:
         headers = f.readlines()
         order = 1
         if not headers:
@@ -130,7 +133,7 @@ def make_ebook(source_dir, output_dir=None):
     # cover
     cover_file_name = os.path.join(tmp_dir, 'cover.jpg')
     if not os.path.isfile(cover_file_name):
-        cover = '%s/templates/cover.jpg' % os.path.dirname(os.path.realpath(__file__))
+        cover = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'templates', 'cover.jpg')
         shutil.copy(cover, tmp_dir)
 
     # render toc.ncx file
