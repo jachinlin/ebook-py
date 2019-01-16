@@ -8,7 +8,13 @@ import shutil
 from jinja2 import Environment, FileSystemLoader
 
 templates_env = Environment(loader=FileSystemLoader('%s/templates/' % os.path.dirname(os.path.realpath(__file__))))
-_default_output_dir = '/tmp/kindle_maker/'
+
+if sys.platform.startswith('win'):
+    _default_output_dir = os.path.join('kindle_maker')
+elif sys.platform.startswith('linux'):
+    _default_output_dir = '/tmp/kindle_maker/'
+else:
+    _default_output_dir = '/tmp/kindle_maker/'
 
 
 def render_file(template_name, context, output_name, output_dir):
@@ -130,7 +136,7 @@ def make_ebook(source_dir, output_dir=None):
     # cover
     cover_file_name = os.path.join(tmp_dir, 'cover.jpg')
     if not os.path.isfile(cover_file_name):
-        cover = '%s/templates/cover.jpg' % os.path.dirname(os.path.realpath(__file__))
+        cover = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'templates', 'cover.jpg')
         shutil.copy(cover, tmp_dir)
 
     # render toc.ncx file
