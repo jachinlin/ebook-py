@@ -5,16 +5,12 @@ import sys
 import uuid
 import datetime
 import shutil
+import tempfile
 from jinja2 import Environment, FileSystemLoader
 
 templates_env = Environment(loader=FileSystemLoader('%s/templates/' % os.path.dirname(os.path.realpath(__file__))))
 
-if sys.platform.startswith('win'):
-    _default_output_dir = os.path.join('kindle_maker')
-elif sys.platform.startswith('linux'):
-    _default_output_dir = '/tmp/kindle_maker/'
-else:
-    _default_output_dir = '/tmp/kindle_maker/'
+_default_output_dir = os.path.join(tempfile.gettempdir(), 'kindle_maker')
 
 
 def render_file(template_name, context, output_name, output_dir):
