@@ -1,5 +1,6 @@
 # coding=utf8
 
+import io
 import os
 import sys
 import uuid
@@ -15,7 +16,7 @@ _default_output_dir = os.path.join(tempfile.gettempdir(), 'kindle_maker')
 
 def render_file(template_name, context, output_name, output_dir):
     template = templates_env.get_template(template_name)
-    with open(os.path.join(output_dir, output_name), mode="w", encoding='utf-8') as f:
+    with io.open(os.path.join(output_dir, output_name), mode="w", encoding='utf-8') as f:
         f.write(template.render(**context))
 
 
@@ -71,7 +72,7 @@ def parse_headers(toc_file_name):
     """
     headers_info = []
 
-    with open(toc_file_name, mode='r', encoding='utf-8') as f:
+    with io.open(toc_file_name, mode='r', encoding='utf-8') as f:
         headers = f.readlines()
         order = 1
         if not headers:
