@@ -1,7 +1,4 @@
 
-output
-
-
 *.py[cod]
 *.log
 
@@ -15,7 +12,7 @@ dist
 build
 eggs
 parts
-bin
+
 var
 sdist
 develop-eggs
@@ -41,3 +38,4 @@ venv
 
 # Environment files
 .idea
+.DS_Store
