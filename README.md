@@ -8,14 +8,13 @@ kindle_maker is a Python tool which, given a set of html files and a plain text 
 creates a MOBI file that you can directly use on you Amazon Kindle (or any other
 device that supports MOBI documents).
 
-Want to see what it looks like? Take a look at `examples/!
+Want to see what it looks like? Take a look at [examples](./examples)!
 
 
 ## Requirements
 
-* A working Python 3 environment (tested on OS X + Python 3.5 + Virtualenv).
-* [Amazon's KindleGen](https://www.amazon.com/gp/feature.html?ie=UTF8&docId=1000765211)
-  binary.
+* A working Python 3 environment (tested on OS X + Python 3.7 + Virtualenv and other platforms on [travis](https://travis-ci.org/jachinlin/kindle_maker)).
+* [Amazon's KindleGen](https://www.amazon.com/gp/feature.html?ie=UTF8&docId=1000765211) binary (Just do nothing while I have downloaded it for you)
 
 ## Installation
 
@@ -46,7 +45,7 @@ file to your device.
 
 ## Example
 
-see examples at `examples`!
+see examples at [examples](./examples).
 
 
 ## License
