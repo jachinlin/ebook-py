@@ -1,8 +1,8 @@
 language: python
 python:
-  - "3.4"
   - "3.5"
   - "3.6"
+  - "3.7"
 
 # command to install dependencies
 install:
@@ -11,7 +11,7 @@ install:
 
 # command to run tests
 script:
-  - pytest --cov=./kindle_maker
+  - pytest -s --cov=./kindle_maker
 
 after_success:
   - codecov
