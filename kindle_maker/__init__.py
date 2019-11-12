@@ -2,7 +2,8 @@
 
 import sys
 
-from kindle_maker.ebook_maker import make_ebook as make_mobi
+from kindle_maker.ebooklib import Ebook
+from kindle_maker.ebooklib import make_ebook as make_mobi
 
 
 def make_mobi_command():

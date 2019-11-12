@@ -29,6 +29,7 @@ pip-log.txt
 .tox
 nosetests.xml
 .pytest_cache/
+htmlcov
 
 
 # Virtual environment

@@ -10,33 +10,33 @@
 
     <manifest>
         <item id="cover_image" href="cover.jpg" media-type="image/jpeg"/>
-        <item id="toc" media-type="application/x-dtbncx+xml" href="toc.ncx"></item>
-        <item id="item1" media-type="application/xhtml+xml" href="toc.html"/>
-        {% for flp in headers %}
-            {% set i = loop.index %}
-            <item id="chapter_{{i}}" media-type="application/xhtml+xml" href="{{flp.title}}.html"/>
-            {% for nlp in flp.next_headers %}
-                {% set j = loop.index %}
-                <item id="session_{{i}}.{{j}}" media-type="application/xhtml+xml" href="{{nlp.title}}.html"/>
-            {% endfor %}
-        {% endfor %}
+        <item id="toc" media-type="application/x-dtbncx+xml" href="toc.ncx"/>
+        <item id="toc_html" media-type="application/xhtml+xml" href="toc.html"/>
+    {% for h in headings %}
+        {% set i = loop.index %}
+        <item id="chapter_{{i}}" media-type="application/xhtml+xml" href="{{h.file_name}}"/>
+    {% for sh in h.sub_headings %}
+        {% set j = loop.index %}
+        <item id="session_{{i}}.{{j}}" media-type="application/xhtml+xml" href="{{sh.file_name}}"/>
+    {% endfor %}
+    {% endfor %}
     </manifest>
 
     <spine toc="toc">
-        {% for flp in headers %}
-            {% set i = loop.index %}
-            <itemref idref="chapter_{{i}}"/>
-            {% for nlp in flp.next_headers %}
-                {% set j = loop.index %}
-                <itemref idref="session_{{i}}.{{j}}"/>
-            {% endfor %}
-        {% endfor %}
-
+        <itemref idref="toc_html"/>
+    {% for h in headings %}
+        {% set i = loop.index %}
+        <itemref idref="chapter_{{i}}"/>
+    {% for sh in h.sub_headings %}
+        {% set j = loop.index %}
+        <itemref idref="session_{{i}}.{{j}}"/>
+    {% endfor %}
+    {% endfor %}
     </spine>
 
     <guide>
-        <reference type="toc" title="Table of Contents" href="toc.html"></reference>
-        <reference type="text" title="Table of Contents" href="{{headers[0].title}}.html"></reference>
+        <reference type="toc" title="Table of Contents" href="toc.html"/>
+        <reference type="text" title="{{headings[0].title}}" href="{{headings[0].file_name}}"/>
     </guide>
 
 </package>

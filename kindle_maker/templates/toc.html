@@ -7,14 +7,13 @@
 <body>
     <h1><b>TABLE OF CONTENTS</b></h1>
     <br/>
-
-    {% for flp in headers %}
-        <h3><b><a href="{{ flp.title }}.html">{{ flp.title }}</a></b></h3>
-        <ul>
-            {% for nlp in flp.next_headers %}
-                <li><a href="{{ nlp.title }}.html">{{ nlp.title }}</a></li>
-            {% endfor %}
-        </ul>
+{% for h in headings %}
+    <h3><b><a href="{{ h.file_name }}">{{ h.title }}</a></b></h3>
+    <ul>
+    {% for sh in h.sub_headings %}
+        <li><a href="{{ sh.file_name }}">{{ sh.title }}</a></li>
     {% endfor %}
+    </ul>
+{% endfor %}
 </body>
 </html>
