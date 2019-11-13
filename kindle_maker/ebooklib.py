@@ -102,11 +102,11 @@ class EbookUtil:
         if self._ebook.cover_path:
             cover_path = self._ebook.cover_path
             shutil.copy(cover_path, str(self._ebook.tmpdir))
-        elif not self._ebook.cover_content:
+        elif self._ebook.cover_content:
+            raise NotImplementedError
+        else:
             cover = pathlib.Path(__file__).parent / 'templates/cover.jpg'
             shutil.copy(str(cover), str(self._ebook.tmpdir))
-        else:
-            raise NotImplementedError
 
     def _save_chapters(self) -> None:
         for c in self._ebook.chapter_list:
@@ -217,11 +217,12 @@ class Ebook:
     def set_cover(self, cover_path: str = None,
                   cover_content: bytes = None) -> 'Ebook':
         if cover_path:
-            with open(cover_path, 'rb') as img:
-                self.cover_content = img.read()
-                return self
+            self.cover_path = cover_path
+            self.cover_content = None
+            return self
         if cover_content:
             self.cover_content = cover_content
+            self.cover_path = None
             return self
         raise ValueError('img_path and img_content are both empty')
 
@@ -335,6 +336,7 @@ def make_ebook(source_dir, output_dir=None):
     toc_file_name = os.path.join(source_dir, 'toc.md')
     title, headers = _parse_headers(toc_file_name)
     ebook = Ebook(title)
+    ebook.set_cover(cover_path=os.path.join(source_dir, 'cover.jpg'))
     for h in headers:
         c = ebook.create_chapter(
             h['title'],
