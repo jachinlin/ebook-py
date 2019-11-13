@@ -336,7 +336,9 @@ def make_ebook(source_dir, output_dir=None):
     toc_file_name = os.path.join(source_dir, 'toc.md')
     title, headers = _parse_headers(toc_file_name)
     ebook = Ebook(title)
-    ebook.set_cover(cover_path=os.path.join(source_dir, 'cover.jpg'))
+    cover = os.path.join(source_dir, 'cover.jpg')
+    if os.path.isfile(cover):
+        ebook.set_cover(cover_path=cover)
     for h in headers:
         c = ebook.create_chapter(
             h['title'],
