@@ -124,7 +124,8 @@ class EbookUtil:
             kindlegen, '-dont_append_source', str(self._ebook.tmpdir / opf_file)
         ])
         if rc != 0:
-            raise Exception('kindlegen failed')
+            pass
+            # raise Exception('kindlegen failed')
 
 
 class Chapter:
