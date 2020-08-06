@@ -4,7 +4,23 @@
 
 from setuptools import setup
 
-version = '1.0.1'
+from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
+
+
+class bdist_wheel(_bdist_wheel):
+
+    def finalize_options(self):
+        _bdist_wheel.finalize_options(self)
+        self.root_is_pure = False
+
+    def get_tag(self):
+        python, abi, plat = _bdist_wheel.get_tag(self)
+        # We don't contain any python source
+        python, abi = 'py2.py3', 'none'
+        return python, abi, plat
+
+
+version = '1.0.4'
 
 setup(
     name='kindle_maker',
@@ -28,5 +44,6 @@ setup(
         'console_scripts': [
             'make_mobi=kindle_maker:make_mobi_command',
         ],
-    }
+    },
+    cmdclass={'bdist_wheel': bdist_wheel}
 )
