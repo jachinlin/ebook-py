@@ -4,7 +4,7 @@
 
 from setuptools import setup
 
-version = 'v1.0.2'
+version = '1.0.3'
 
 setup(
     name='kindle_maker',
