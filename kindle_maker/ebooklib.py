@@ -10,6 +10,7 @@ import subprocess
 import io
 import sys
 import warnings
+import re
 from typing import Optional, List
 
 from jinja2 import Environment, FileSystemLoader
@@ -19,11 +20,9 @@ from kindle_maker.kindlegen import kindlegen
 
 def format_file_name(path: str) -> str:
     """
-    strip illegal characters
+    remove illegal characters
     """
-    return path.replace('/', '').replace(' ', ''). \
-        replace('+', '-').replace('"', '').replace('\\', ''). \
-        replace(':', '-').replace('|', '-')
+    return re.sub(r'[/\\?%*:|"\'<>.,;=\s+]+', '', path)
 
 
 class EbookUtil:
@@ -37,6 +36,9 @@ class EbookUtil:
     @property
     def headings(self) -> List[dict]:
         """
+        generate the ebook headings
+
+        dict format
         {
             'title': 'xxx',
             'play_order': xxx,
@@ -67,7 +69,7 @@ class EbookUtil:
                 mode="w", encoding='utf-8') as f:
             f.write(template.render(**context))
 
-    def _render_toc_ncx(self):
+    def _render_toc_ncx(self) -> str:
         ncx = 'toc.ncx'
         self._render_file(
             'toc.xml',
@@ -80,7 +82,7 @@ class EbookUtil:
         )
         return ncx
 
-    def _render_toc_html(self):
+    def _render_toc_html(self) -> str:
         toc = 'toc.html'
         self._render_file(toc, {'headings': self.headings}, toc)
         return toc
@@ -105,6 +107,7 @@ class EbookUtil:
         elif self._ebook.cover_content:
             raise NotImplementedError
         else:
+            # default cover
             cover = pathlib.Path(__file__).parent / 'templates/cover.jpg'
             shutil.copy(str(cover), str(self._ebook.tmpdir))
 
@@ -114,18 +117,39 @@ class EbookUtil:
             for sc in c.sub_chapters:
                 sc.save()
 
-    def create(self):
+    def _generate_all_files(self) -> str:
+        """
+        generate all files
+        """
         self._render_toc_ncx()
         self._render_toc_html()
         opf_file = self._render_opf()
         self._save_cover()
         self._save_chapters()
+
+        return opf_file
+
+    def _create_mobi(self):
+        """
+        create a mobi ebook
+        """
+        opf_file = self._generate_all_files()
         rc = subprocess.call([
             kindlegen, '-dont_append_source', str(self._ebook.tmpdir / opf_file)
         ])
         if rc != 0:
             pass
             # raise Exception('kindlegen failed')
+
+    def _create_epub(self):
+        """
+        create a epub ebook
+        """
+        self._generate_all_files()
+        raise NotImplementedError
+
+    def create(self):
+        getattr(self, '_create_{}'.format(self._ebook.format))()
 
 
 class Chapter:
@@ -154,7 +178,8 @@ class Chapter:
     @property
     def content(self) -> str:
         if self._file_path:
-            return io.open(self._file_path, encoding='utf-8').read()
+            with io.open(self._file_path, encoding='utf-8') as f:
+                return f.read()
         return self._content
 
     @property
@@ -193,11 +218,12 @@ class Chapter:
 
 class Ebook:
 
-    def __init__(self, title: str, author=None):
-        self.title = title
-        self.author = author
-        self.cover_path = None
-        self.cover_content = None
+    def __init__(self, title: str, author=None, ebook_format: str = 'mobi'):
+        self.title: str = title
+        self.author: str = author
+        self.format = ebook_format
+        self.cover_path: str = None
+        self.cover_content: bytes = None
         self._tempdir = pathlib.Path(tempfile.gettempdir()) / str(time.time())
         self._tempdir.mkdir()
         self.chapter_list = list()
@@ -205,7 +231,8 @@ class Ebook:
 
     @property
     def dest_file_path(self) -> pathlib.Path:
-        return pathlib.Path('{}.mobi'.format(format_file_name(self.title)))
+        return pathlib.Path('{}.{}'.format(
+            format_file_name(self.title), self.format))
 
     @property
     def full_dest_file_path(self) -> pathlib.Path:
@@ -245,14 +272,15 @@ class Ebook:
     def _create(self):
         if not self.chapter_list:
             raise ValueError('chapter list is empty')
-        return self._eu.create()
+        return self._eu.create_epub()
 
-    def save(self, file_path: str):
+    def save(self, file_path: str = None):
         """
         create the ebook and save to the given file_path
         """
         self._create()
-        shutil.copy(str(self.tmpdir / self.dest_file_path), file_path)
+        file_path = file_path or self.dest_file_path
+        shutil.copy(str(self.full_dest_file_path), file_path)
 
     def show(self) -> int:
         """
@@ -280,6 +308,9 @@ class Ebook:
             root.rmdir()
         rmtree(self.tmpdir)
 
+
+################################################################################
+#  deprecated apis for [geektime_dl](https://github.com/jachinlin/geektime_dl)
 
 def _parse_headers(toc_file_name):
     """
