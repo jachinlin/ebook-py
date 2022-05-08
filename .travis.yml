@@ -11,7 +11,7 @@ install:
 
 # command to run tests
 script:
-  - pytest -s --cov=./kindle_maker
+  - python -m pytest -s --cov=./ebook
 
 after_success:
   - codecov

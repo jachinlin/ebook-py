@@ -34,9 +34,4 @@
     {% endfor %}
     </spine>
 
-    <guide>
-        <reference type="toc" title="Table of Contents" href="toc.html"/>
-        <reference type="text" title="{{headings[0].title}}" href="{{headings[0].file_name}}"/>
-    </guide>
-
 </package>

@@ -3,9 +3,9 @@
 import platform
 import os
 
-import kindle_maker
+import ebook
 
-path = kindle_maker.__path__[0]
+path = ebook.__path__[0]
 
 system = platform.system()
 

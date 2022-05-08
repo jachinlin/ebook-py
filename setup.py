@@ -3,7 +3,6 @@
 
 
 from setuptools import setup
-
 from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
 
 
@@ -20,19 +19,19 @@ class bdist_wheel(_bdist_wheel):
         return python, abi, plat
 
 
-version = '1.0.4'
+version = '1.1.0'
 
 setup(
-    name='kindle_maker',
+    name='ebook',
     version=version,
     author='jachinlin',
     author_email='linjx1000@gmail.com',
-    url='https://github.com/jachinlin/kindle_maker',
-    description='a tool make kindle mobi ebook',
+    url='https://github.com/jachinlin/ebook-py',
+    description='ebook tool',
     license='MIT',
-    keywords='kindle ebook mobi',
-    packages=['kindle_maker'],
-    package_data={'kindle_maker': [
+    keywords='kindle ebook mobi epub',
+    packages=['ebook'],
+    package_data={'ebook': [
         'templates/*',
         'bin/linux/kindlegen',
         'bin/mac/kindlegen'
@@ -42,7 +41,8 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'make_mobi=kindle_maker:make_mobi_command',
+            'make_epub=ebook:make_epub',
+            'make_mobi=ebook:make_mobi',
         ],
     },
     cmdclass={'bdist_wheel': bdist_wheel}
