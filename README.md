@@ -1,11 +1,10 @@
-# Kindle ebook making
+# ebook-py
 
-[![travis](https://api.travis-ci.org/jachinlin/kindle_maker.svg?branch=master)](https://travis-ci.org/jachinlin/kindle_maker)
-[![codecov](https://codecov.io/gh/jachinlin/kindle_maker/branch/master/graph/badge.svg)](https://codecov.io/gh/jachinlin/kindle_maker)
+[![CI](https://github.com/jachinlin/ebook-py/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/jachinlin/ebook-py/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/github/jachinlin/ebook-py/badge.svg)](https://coveralls.io/github/jachinlin/ebook-py)
 
-
-kindle_maker is a Python tool which, given a set of html files and a plain text file with toc message,
-creates a MOBI file that you can directly use on you Amazon Kindle (or any other
+ebook-py is a Python tool which, given a set of html files and a plain text file with toc information,
+creates a MOBI file that you can directly use on your Amazon Kindle (or any other
 device that supports MOBI documents).
 
 Want to see what it looks like? Take a look at [examples](./examples)!
@@ -13,13 +12,12 @@ Want to see what it looks like? Take a look at [examples](./examples)!
 
 ## Requirements
 
-* A working Python 3 environment (tested on OS X + Python 3.7 + Virtualenv and other platforms on [travis](https://travis-ci.org/jachinlin/kindle_maker)).
-* [Amazon's KindleGen](https://www.amazon.com/gp/feature.html?ie=UTF8&docId=1000765211) binary (Just do nothing while I have downloaded it for you)
+* A working Python 3 environment (tested on OS X + Python 3.7 + Virtualenv).
 
 ## Installation
 
 1. (optional) Source your virtualenv.
-2. `pip install git+https://github.com/jachinlin/kindle_maker.git`
+2. `pip install git+https://github.com/jachinlin/ebook-py.git`
 
 ## Usage
 
