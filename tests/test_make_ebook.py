@@ -24,5 +24,3 @@ def test_mobi():
     assert os.path.isfile(mobi)
 
     os.remove(mobi)
-
-

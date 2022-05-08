@@ -1,6 +1,5 @@
 # coding=utf8
 
-import os
 import pathlib
 
 from ebook import Ebook
@@ -73,4 +72,3 @@ def sample_ebook(format: str) -> str:
 if __name__ == '__main__':
     sample_ebook(format='mobi')
     sample_ebook(format='epub')
-

@@ -11,7 +11,7 @@ def make_epub():
     args = sys.argv[1:]
     if len(args) < 2:
         print("""make_epub usage:
-1. prepare html files and a toc.md file in a source dir, and then call 
+1. prepare html files and a toc.md file in a source dir, and then call
 2. make_epub <source_dir> <output_dir>
         """)
         return
@@ -25,7 +25,7 @@ def make_mobi():
     args = sys.argv[1:]
     if len(args) < 2:
         print("""make_mobi usage:
-1. prepare html files and a toc.md file in a source dir, and then call 
+1. prepare html files and a toc.md file in a source dir, and then call
 2. make_mobi <source_dir> <output_dir>
         """)
         return
@@ -105,4 +105,3 @@ def make_ebook(source_dir: str, output_dir: str, format="epub") -> str:
     fn = os.path.join(output_dir, '{}.{}'.format(title, format))
     ebook.save_to(fn)
     return fn
-

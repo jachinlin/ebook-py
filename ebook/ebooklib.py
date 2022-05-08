@@ -128,7 +128,7 @@ class EbookUtil:
         self._render_container_xml()
         self._render_toc_ncx()
         self._render_toc_html()
-        opf_file = self._render_opf()
+        self._render_opf()
         self._save_cover()
         self._move_source_files()
 
