@@ -176,9 +176,10 @@ class Chapter:
                  file_path: str, level: int = 1):
         self.title = title
         self._ebook = ebook
-        if not (self._ebook.source_folder / file_path).is_file():
+        full_file_path = self._ebook.source_folder / file_path
+        if not full_file_path.is_file():
             raise FileNotFoundError('{} not found'.format(file_path))
-        self.file_path = file_path
+        self.file_path = full_file_path.relative_to(self._ebook.source_folder)
         self._level = level
         self.sub_chapters: List['Chapter'] = list()
 
