@@ -49,3 +49,5 @@ see examples at [examples](./examples).
 ## License
 
 Have fun.
+
+(The official license is MIT)
